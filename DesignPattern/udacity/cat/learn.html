@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.1.min.js"></script>
+<head>
+	<title></title>
+</head>
+<body style="display: flex;">
+
+</body>
+</html>
+<script type="text/javascript">	
+	// class liFactory{
+	// 	constructor(amount,text){
+	// 		this.amount = amount
+	// 		this.li = ""
+	// 	}
+	// 	createLi(){
+	// 		for(let i=0;i<=amount-1;i++){
+	// 			this.li += "<li></li>"
+	// 		}
+	// 	}
+	// }
+	class catFactory{
+		constructor(amount){
+			this.amount = amount;
+			this.currentNum = 1;
+			this.main()
+		}
+		main(){
+			this.initCatClickList();
+			this.initTotalCatDom();
+			this.addCatClickListEvent();
+		}
+		initCatClickList(){
+			let li = "";
+			for(let i=1;i<=this.amount;i++){
+				li += `<li class=${i}>${i}</li>`
+			}
+			$("body").append(`<ul class="cat-list">${li}</ul>`);
+		}
+		addCatClickListEvent(){
+			let that = this;
+			$(".cat-list li").click(function(e){
+				let a = $(this).attr('class')
+				that.currentNum = Number(a);
+				that.showCurrentCat()	
+			})
+		}
+		initTotalCatDom(){
+			$('.cat-list').after("<div class='catTotal'></div>")
+			for(let j=1;j<=this.amount;j++){
+				var p = new cat(`cat${j}`,`cat${j}`);
+				p.hideDom();
+			}
+		}
+		showCurrentCat(){
+			$(`.cat${this.currentNum}`).css("display","block").siblings().css("display","none")
+		}
+	}
+	class cat{
+		constructor(name,picname){
+			this.count = 0
+			this.name = name
+			this.src = `./${picname}.jpeg`
+			this.main()
+			// document.getElementsByTagName('body').appendChild('img');
+		}
+		main(){
+			this.initDom();
+			this.addEventCatClick();
+		}
+		initDom(){
+			$(".catTotal").append(`
+				<div class=${this.name}>
+				    <img class="cat-img" src=${this.src} width="400px" height="300px">
+					<p class=${this.name}-count>0</p>
+				</div>
+				`)
+		}
+		addEventCatClick(){
+			$(`.${this.name} .cat-img`).click((e)=>{
+				this.count += 1;
+				$(`.${this.name}-count`).text(`${this.count}`)
+			})
+		}
+		hideDom(){
+			$(this.name).css("display","none")
+		}
+		showDom(){
+			$(this.name).css("display","block")
+		}
+		// saveDomParms(){
+
+		// }
+
+	}
+	var a = new catFactory(3)
+</script>
+
+
+
+prodMine
